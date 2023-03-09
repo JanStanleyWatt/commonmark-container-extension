@@ -1,0 +1,47 @@
+{
+    "name": "jsw/commonmark-container-extension",
+    "type": "commonmark-extension",
+    "authors": [
+        {
+            "name": "Jan Stanley Watt",
+            "email": "github@mail.whojinn.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/JanStanleyWatt/commonmark-container-extension/issues"
+    },
+    "keywords": [
+        "markdown",
+        "extension",
+        "md",
+        "commonmark",
+        "commonmark-extension"
+    ],
+    "description": "League/commonmark extension for custom container nspired by Markdig.",
+    "license": "Apache-2.0",
+    "readme": "README.md",
+    "require-dev": {
+        "league/commonmark": "^2.3",
+        "phpunit/phpunit": "^9.5",
+        "friendsofphp/php-cs-fixer": "^3.14"
+    },
+    "autoload": {
+        "psr-4": {
+            "JSW\\Container\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "JSW\\Tests\\": "tests/"
+        }
+    },
+    "suggest": {
+        "jsw/commonmark-figure-extension": "League\\CommonMark extension for HTML diagrams and captions inspired by Markdig."
+    },
+    "scripts": {
+        "test": "./vendor/bin/phpunit tests"
+    },
+    "scripts-descriptions": {
+        "test": "Run all tests"
+    }
+}
