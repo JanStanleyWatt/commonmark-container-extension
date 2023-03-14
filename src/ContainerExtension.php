@@ -20,9 +20,12 @@ declare(strict_types=1);
 
 namespace JSW\Container;
 
+use JSW\Container\Delimiter\ContainerDelimiterProcesser;
 use JSW\Container\Node\Division;
+use JSW\Container\Node\Span;
 use JSW\Container\Parser\ContainerParser;
-use JSW\Container\Renderer\ContainerRenderer;
+use JSW\Container\Renderer\DivisionRenderer;
+use JSW\Container\Renderer\SpanRenderer;
 use League\CommonMark\Environment\EnvironmentBuilderInterface;
 use League\CommonMark\Extension\ConfigurableExtensionInterface;
 use League\Config\ConfigurationBuilderInterface;
@@ -42,6 +45,8 @@ final class ContainerExtension implements ConfigurableExtensionInterface
     public function register(EnvironmentBuilderInterface $environment): void
     {
         $environment->addBlockStartParser(ContainerParser::createBlockStartParser())
-                    ->addRenderer(Division::class, new ContainerRenderer());
+                    ->addDelimiterProcessor(new ContainerDelimiterProcesser())
+                    ->addRenderer(Division::class, new DivisionRenderer())
+                    ->addRenderer(Span::class, new SpanRenderer());
     }
 }

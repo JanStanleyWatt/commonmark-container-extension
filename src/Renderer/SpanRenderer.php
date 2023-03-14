@@ -21,39 +21,27 @@ declare(strict_types=1);
 namespace JSW\Container\Renderer;
 
 use JSW\Container\Node\Division;
+use JSW\Container\Node\Span;
 use League\CommonMark\Node\Node;
 use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Renderer\NodeRendererInterface;
 use League\CommonMark\Util\HtmlElement;
 use League\CommonMark\Xml\XmlNodeRendererInterface;
-use League\Config\ConfigurationAwareInterface;
 use League\Config\ConfigurationInterface;
 
-final class ContainerRenderer implements NodeRendererInterface, XmlNodeRendererInterface, ConfigurationAwareInterface
+final class SpanRenderer implements NodeRendererInterface, XmlNodeRendererInterface
 {
-    private ConfigurationInterface $config;
-    private string $class_name = '';
+    private array $attrs = [];
 
     /**
-     * @param Division $node
+     * @param Span $node
      */
     public function render(Node $node, ChildNodeRendererInterface $childRenderer)
     {
-        Division::assertInstanceOf($node);
+        Span::assertInstanceOf($node);
+        $this->attrs = $node->data->get('attributes');
 
-        $this->class_name = $this->config->get('container/default_class_name') ?? '';
-
-        $class_name = $node->data->get('class_name', '');
-        if ('' !== $class_name) {
-            $this->class_name = $class_name;
-        }
-
-        $attrs = $node->data->get('attributes');
-        if ('' !== $this->class_name) {
-            $attrs['class'] = $this->class_name;
-        }
-
-        return new HtmlElement('div', $attrs, $childRenderer->renderNodes($node->children()));
+        return new HtmlElement('span', $this->attrs, $childRenderer->renderNodes($node->children()));
     }
 
     /**
@@ -61,7 +49,7 @@ final class ContainerRenderer implements NodeRendererInterface, XmlNodeRendererI
      */
     public function getXmlTagName(Node $node): string
     {
-        return 'div';
+        return 'span';
     }
 
     /**
@@ -69,11 +57,6 @@ final class ContainerRenderer implements NodeRendererInterface, XmlNodeRendererI
      */
     public function getXmlAttributes(Node $node): array
     {
-        return '' !== $this->class_name ? ['class' => $this->class_name] : [];
-    }
-
-    public function setConfiguration(ConfigurationInterface $configuration): void
-    {
-        $this->config = $configuration;
+        return [] !== $this->attrs ? $this->attrs : [];
     }
 }
