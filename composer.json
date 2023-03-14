@@ -17,7 +17,7 @@
         "commonmark",
         "commonmark-extension"
     ],
-    "description": "League/commonmark extension for custom container nspired by Markdig.",
+    "description": "League/commonmark extension for custom container inspired by Markdig.",
     "license": "Apache-2.0",
     "readme": "README.md",
     "require-dev": {
